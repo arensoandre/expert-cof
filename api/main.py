@@ -10,6 +10,7 @@ import google.generativeai as genai
 import json
 import stripe
 from pydantic import BaseModel
+import tempfile
 
 load_dotenv()
 
@@ -32,6 +33,9 @@ if GOOGLE_API_KEY:
 else:
     print("Warning: GOOGLE_API_KEY not found in environment variables.")
 
+# Frontend URL for Redirects
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:5173")
+
 app = FastAPI(title="Expert COF API", version="1.0.0")
 
 # Configure CORS
@@ -43,8 +47,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-UPLOAD_DIR = Path("uploads")
-UPLOAD_DIR.mkdir(exist_ok=True)
+# Use system temp directory for uploads (works on Vercel)
+UPLOAD_DIR = Path(tempfile.gettempdir())
+# UPLOAD_DIR.mkdir(exist_ok=True) # /tmp always exists
 
 @app.get("/")
 async def root():
@@ -428,8 +433,8 @@ async def create_checkout_session(request: CheckoutRequest):
                 },
             ],
             mode='subscription',
-            success_url='http://localhost:5174/dashboard?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url='http://localhost:5174/profile',
+            success_url=f'{FRONTEND_URL}/dashboard?session_id={{CHECKOUT_SESSION_ID}}',
+            cancel_url=f'{FRONTEND_URL}/profile',
         )
         return {"url": checkout_session.url}
     except Exception as e:
@@ -455,7 +460,7 @@ async def create_portal_session(request: PortalRequest):
 
         portal_session = stripe.billing_portal.Session.create(
             customer=customer_id,
-            return_url='http://localhost:5174/profile',
+            return_url=f'{FRONTEND_URL}/profile',
         )
         return {"url": portal_session.url}
     except Exception as e:

@@ -27,7 +27,11 @@ export default function Login() {
 
       navigate('/dashboard');
     } catch (err: any) {
-      setError(err.message || 'Erro ao fazer login');
+      if (err.message === 'Invalid login credentials') {
+        setError('Email ou senha incorretos. Por favor, verifique suas credenciais.');
+      } else {
+        setError(err.message || 'Erro ao fazer login');
+      }
     } finally {
       setLoading(false);
     }
