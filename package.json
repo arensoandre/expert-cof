@@ -10,6 +10,12 @@
     "preview": "vite preview",
     "check": "tsc -b --noEmit"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "core-js",
+      "esbuild"
+    ]
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.89.0",
     "clsx": "^2.1.1",
