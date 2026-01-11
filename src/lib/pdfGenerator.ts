@@ -84,7 +84,7 @@ export const generateAnalysisPDF = (data: AnalysisResult) => {
     });
     
     // @ts-ignore
-    yPos = doc.lastAutoTable.finalY + 12;
+    yPos = (doc as any).lastAutoTable.finalY + 12;
   }
 
   // -- RISKS --
@@ -109,15 +109,15 @@ export const generateAnalysisPDF = (data: AnalysisResult) => {
     theme: 'grid',
     headStyles: { fillColor: [220, 38, 38] }, // Red for risks
     columnStyles: {
-      0: { fontStyle: 'bold', width: 25 },
-      1: { fontStyle: 'bold', width: 40 },
-      2: { width: 'auto' }
+      0: { fontStyle: 'bold', cellWidth: 25 },
+      1: { fontStyle: 'bold', cellWidth: 40 },
+      2: { cellWidth: 'auto' }
     },
     styles: { fontSize: 9 }
   });
 
   // @ts-ignore
-  yPos = doc.lastAutoTable.finalY + 12;
+  yPos = (doc as any).lastAutoTable.finalY + 12;
 
   // -- RECOMMENDATIONS --
   // Check if we need a new page
@@ -140,7 +140,7 @@ export const generateAnalysisPDF = (data: AnalysisResult) => {
   });
 
   // Footer
-  const pageCount = doc.internal.getNumberOfPages();
+  const pageCount = (doc.internal as any).getNumberOfPages();
   for(let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     doc.setFontSize(8);

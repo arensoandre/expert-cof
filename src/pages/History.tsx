@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function History() {
   const { user } = useAuth();
-  const [analyses, setAnalyses] = useState<AnalysisResult[] & { id?: string }[]>([]);
+  const [analyses, setAnalyses] = useState<AnalysisResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedAnalysis, setSelectedAnalysis] = useState<AnalysisResult | null>(null);
   const [searchTerm, setSearchTerm] = useState('');

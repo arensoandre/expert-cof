@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Card } from '../components/ui/card';
-import { Button } from '../components/ui/button';
+import { Card } from '../components/ui/Card';
+import { Button } from '../components/ui/Button';
 import { CreditCard, Search, Save, Loader2, Edit2, Banknote, Wallet } from 'lucide-react';
 
 interface UserProfile {

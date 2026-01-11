@@ -23,4 +23,8 @@ export interface AnalysisResult {
   missingClauses: string[];
   recommendations: string[];
   from_cache?: boolean;
+  extracted_data?: {
+    cnpj?: string;
+  };
+  id?: string;
 }
